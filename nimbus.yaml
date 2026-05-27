@@ -1,0 +1,51 @@
+version: 1
+
+# Required runtimes for Tiranga Game (Node.js/Express)
+runtime:
+  node: 20
+
+# Commands to run during the installation phase
+install:
+  - npm install
+
+# Environment variables to be added/updated in the .env file
+# Customize these with your target database and payment gateway details
+env:
+  NODE_ENV: production
+  PORT: 3000
+  APP_NAME: "TIRANGA"
+  APP_BASE_URL: "https://tringa.socialspecta.com"
+  
+  # MySQL Database Configuration
+  DATABASE_HOST: "localhost"
+  DATABASE_USER: "tringa"
+  DATABASE_PASSWORD: "12345678"
+  DATABASE_NAME: "tringa"
+  
+  # App Security & API keys
+  JWT_ACCESS_TOKEN: "shas$isbwDBWDN2543#jcws"
+  secret_key: "ap6v9njn"
+  accountBank: "vp6262"
+  MINIMUM_MONEY: "100"
+  
+  # Payment Gateway Configurations (Customize as needed)
+  UPI_GATEWAY_PAYMENT_KEY: "0c79da69-fdc1-4a07-a8b4-7135a0168385"
+  WOWPAY_MERCHANT_ID: "100789501"
+  WOWPAY_MERCHANT_KEY: "f5b22eabfd774a98befdb220fb7af60c"
+  PAYMENT_INFO: "WINGO PAYMENT"
+  PAYMENT_EMAIL: "manas.xdr@gmail.com"
+
+# Supervisor custom process configuration
+# This keeps the Node.js Express server running continuously in the background
+supervisor:
+  program: tiranga_game
+  config: |
+    [program:tiranga_game]
+    command=npx babel-node src/server.js
+    directory={domainPath}
+    autostart=true
+    autorestart=true
+    user=www-data
+    numprocs=1
+    redirect_stderr=true
+    stdout_logfile={domainPath}/logs/supervisor.log
